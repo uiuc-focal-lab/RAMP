@@ -5,36 +5,36 @@ RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations \
 
 We present RAMP, a framework that boosts multiple-norm robustness, via alleviating the tradeoffs in robustness among multiple $l_p$ perturbations and accuracy/robustness. By analyzing the tradeoffs from the lens of distribution shifts, we identify the key tradeoff pair, apply logit pairing, and leverage gradient projection methods to boost union accuracy with good accuracy/robustness/efficiency tradeoffs. Our results show that RAMP outperforms SOTA methods with better union accuracy, on a wide range of model architectures on CIFAR-10 and ImageNet.
 
-<!-- ## Code
-### Training code
+## Code
 
-The file `train.py` allows to train or fine-tune models. For adversarial training use `--attack=apgd`, otherwise standard training is performed. The main arguments
-for adversarial training are (other options in `train.py`)
-+ `--l_norms='Linf L1'`, the list (as string with blank space separated items) of Lp-norms, even just one, to use for training (note that the training cost is the same
-regardless of the number of threat models used),
-+ `--l_eps`, list of thresholds epsilon for each threat model for training (if not given, the default values are used), sorted as the corresponding norms.
-+ `--l_iters`, list of iterations in adversarial training for each threat model (possibly different), or `--at_iter`, number of steps for all threat models.
+### Installation
+We recommend first creating a conda environment using the provided [environment.yml](https://github.com/uiuc-focal-lab/RAMP/blob/main/environment.yml):
 
-For training new models a PreAct ResNet-18 is used, by default with softplus activation function. 
+`conda env create -f environment.yml`
 
+### Training from Scratch
 
-### Fine-tuning existing models
++ **Main Result**: The files `RAMP.py` and `RAMP_wide_resnet.py` allow us to train ResNet-18 and WideReset models with standard choices of epsilons. To reproduce the results in the paper, one can run `RAMP_scratch_cifar10.sh` in folder `scripts/cifar10`.
+  
++ **Varying Epsilon Values**: We provide scripts of `run_ramp_diff_eps_scratch.sh` (RAMP), `run_max_diff_eps_scratch.sh` (MAX), and `run_eat_diff_eps_scratch.sh` (E-AT) in folder `scripts/cifar10` for running the training from scratch experiments with different choices of epsilons. 
 
-To fine-tune a model add the `--finetune_model` flag, `--lr-schedule=piecewise-ft` to set the standard learning rate schedule,
-`--model_dir=/path/to/pretrained/models` where to download or find the models.
+### Robust Fine-tuning
 
-+ We provide [here](https://drive.google.com/drive/folders/1hYWHp5UbTAm9RhSb8JkJZtcB0LDZDvkT?usp=sharing) pre-trained ResNet-18 robust wrt Linf, L2 and L1,
-which can be loaded specifying `--model_name=pretr_L*.pth` (insert the desired norm).
++ To get pretrained versions of ResNet-18 models with different epsilon values, one can run `pretrain_diff_eps_Lp.sh` scripts in folder `scripts/cifar10`.
+
 + It is also possible to use models from the [Model Zoo](https://github.com/RobustBench/robustbench#model-zoo) of [RobustBench](https://robustbench.github.io/)
-with `--model_name=RB_{}` inserting the identifier of the classifier from the Model Zoo (these are automatically downloaded). Note that models trained with extra data should be fine-tuned with the same
-(currently not supported in the code).
+with `--model_name=RB_{}` inserting the identifier of the classifier from the Model Zoo (these are automatically downloaded). (credits to E-AT paper)
 
-### Evaluation code (from Robust fine-tuning paper)
++ **Main Result**:  To reproduce the results in the paper with different model architectures, one can run `RAMP_finetune_cifar10.sh` in folder `scripts/cifar10` and `RAMP_finetune_imagenet.sh` in folder `scripts/imagenet`.
+
++ **Varying Epsilon Values**: We provide scripts of `run_ramp_diff_eps_finetune.sh` (RAMP), `run_max_diff_eps_finetune.sh` (MAX), and `run_eat_diff_eps_finetune.sh` (E-AT) in folder `scripts/cifar10` for running the robust fine-tuning experiments with different choices of epsilons. 
+
+### Evaluation (from E-AT paper)
 With `--final_eval` our standard evaluation (with APGD-CE and APGD-T, for a total of 10 restarts of 100 steps) is run for all threat models at the end of training.
 Specifying `--eval_freq=k` a fast evaluation is run on test and training points every `k` epochs.
 
 To evaluate a trained model one can run `eval.py` with `--model_name` as above for the pretrained model or `--model_name=/path/to/checkpoint/` for new or fine-tuned
-classifiers. If the run has the automatically generated name, the corresponding architecture is loaded. More details about the options for evaluation in `eval.py`. -->
+classifiers. The corresponding architecture is loaded if the run has the automatically generated name. More details about the options for evaluation in `eval.py`.
 
 ## Credits
 Parts of the code in this repo is based on
