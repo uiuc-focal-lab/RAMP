@@ -57,6 +57,7 @@ def parse_args():
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--fname', type=str, help='store file name')
     parser.add_argument('--dataset', type=str, default='cifar10')
+    parser.add_argument('--n_examples', type=int, default=0)
     parser.add_argument('--at_iter', type=int, help='iteration in adversarial training (used for all norms)')
     parser.add_argument('--n_ex_eval', type=int, default=200)
     parser.add_argument('--n_ex_final', type=int, default=10000)
