@@ -22,7 +22,7 @@ from autopgd_train import apgd_train, train_clean, apgd_train_kl
 from pretrain import gp, get_params_no_decay, gp_finetune
 import utils
 from model_zoo.fast_models import PreActResNet18
-from model_zoo.wide_resnet import Wide_ResNet
+from model_zoo.wide_resnet_old import Wide_ResNet
 import other_utils
 import eval as utils_eval
 
