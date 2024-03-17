@@ -19,7 +19,7 @@ import glob
 import robustbench as rb
 import data
 from autopgd_train import apgd_train, train_clean, apgd_train_kl
-from pretrain import gp, get_params_no_decay, gp_finetune
+from utils import gp, get_params_no_decay
 import utils
 from model_zoo.fast_models import PreActResNet18
 import other_utils
