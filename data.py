@@ -6,6 +6,7 @@ import torchvision.transforms as transforms
 import os
 import numpy as np
 #from utils import download_gdrive
+from semidataset import SemiSupervisedDataset, SemiSupervisedSampler, DATASETS
 import sys
 import pickle
 
@@ -72,75 +73,39 @@ class BalancedSampler(data.Sampler):
         return self.num_batches
 
 def load_cifar10_train_aug(args, only_train=True):
-# def get_cifar10_vs_ti_loader(batch_size, num_workers, use_gpu,
-#                              cifar_fraction=0.5, dataset_dir='data', 
-#                              logger=None):
-
-    # Normalization values for CIFAR-10
-    mean = np.array([0.4914, 0.4822, 0.4465])
-    std = np.array([0.2470, 0.2435, 0.2616])
-
-    train_transform = transforms.Compose([
+    transform_train = transforms.Compose([
         transforms.RandomCrop(32, padding=4),
         transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
-        transforms.Normalize(mean, std),
-    ])
-    test_transform = transforms.Compose([
-        transforms.ToTensor(),
-        transforms.Normalize(mean, std),
     ])
 
-    train_dataset = datasets.CIFAR10(
-        args.data_dir, train=True, transform=train_transform, download=True)
-    test_dataset = datasets.CIFAR10(
-        args.data_dir, train=False, transform=test_transform, download=True)
+    transform_test = transforms.Compose([
+    transforms.ToTensor()])
 
-    # Reading tinyimages and appropriate train/test indices
-    print('Reading tiny images')
-    ti_path = os.path.join(args.data_dir, 'tiny_images.bin')
-    ti_data = np.memmap(ti_path, mode='r', dtype='uint8', order='F',
-                        shape=(32, 32, 3, 79302017)).transpose([3, 0, 1, 2])
-    
-    print('Size of tiny images {}'.format(ti_data.size))
-    ti_indices_path = os.path.join(args.data_dir,
-                                   'ti_vs_cifar_inds.pickle')
-    with open(ti_indices_path, 'rb') as f:
-        ti_indices = pickle.load(f)
-    print('Loaded TI indices')
-    
-    for dataset, name in zip((train_dataset, test_dataset), ('train', 'test')):
-        dataset.data = np.concatenate((dataset.data, ti_data[ti_indices[name]]))
-        # All tinyimages are given label 10
-        dataset.targets.extend([10] * len(ti_indices[name]))
+    trainset = SemiSupervisedDataset(base_dataset='cifar10',
+                                 root=args.data_dir, train=True,
+                                 download=True,
+                                 transform=transform_train,
+                                 aux_data_filename='ti_500K_pseudo_labeled.pickle')
 
-    print('Calling train sampler')
-    # Balancing training batches with CIFAR10 and TI
-    train_sampler = BalancedSampler(
-        train_dataset.targets, args.batch_size,
-        balanced_fraction=0.5,
-        num_batches=int(50000 / (args.batch_size * 0.5)),
-        label_to_balance=10, 
-        logger=None)
-    
-    print('Created train sampler')
-    train_loader = data.DataLoader(
-        train_dataset,
-        batch_sampler=train_sampler,
-        # num_workers=num_workers,
-        # pin_memory=use_gpu,
-    )
+    # num_batches=50000 enforces the definition of an "epoch" as passing through 50K
+    # datapoints
+    train_batch_sampler = SemiSupervisedSampler(
+        trainset.sup_indices, trainset.unsup_indices,
+        args.batch_size, 0.5,
+        num_batches=int(np.ceil(100000 / args.batch_size)))
+    # epoch_size = len(train_batch_sampler) * args.batch_size
 
-    print('Created train loader')
-    test_loader = data.DataLoader(
-        test_dataset,
-        batch_size=args.batch_size_eval,
-        # num_workers=num_workers,
-        shuffle=False,
-        # pin_memory=use_gpu,
-        drop_last=False,
-    )
-    print('Created test loader')
+    # kwargs = {'num_workers': 1, 'pin_memory': True} if use_cuda else {}
+    train_loader = DataLoader(trainset, batch_sampler=train_batch_sampler)
+
+    testset = SemiSupervisedDataset(base_dataset='cifar10',
+                                    root=args.data_dir, train=False,
+                                    download=True,
+                                    transform=transform_test)
+    test_loader = DataLoader(testset, batch_size=args.batch_size,
+                            shuffle=False)
+
     return train_loader, test_loader
 
 
