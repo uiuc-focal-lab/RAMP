@@ -1,9 +1,7 @@
 # RAMP
-RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations \
+RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations [[Arxiv]](https://arxiv.org/abs/2402.06827v1)\
 *Enyi Jiang, Gagandeep Singh*\
-[Arxiv](https://arxiv.org/abs/2402.06827v1)
 
-We present RAMP, a framework that boosts multiple-norm robustness, via alleviating the tradeoffs in robustness among multiple $l_p$ perturbations and accuracy/robustness. By analyzing the tradeoffs from the lens of distribution shifts, we identify the key tradeoff pair, apply logit pairing, and leverage gradient projection methods to boost union accuracy with good accuracy/robustness/efficiency tradeoffs. Our results show that RAMP outperforms SOTA methods with better union accuracy, on a wide range of model architectures on CIFAR-10 and ImageNet.
 
 ## Code
 
