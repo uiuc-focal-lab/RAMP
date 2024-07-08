@@ -1,6 +1,6 @@
 # RAMP
 RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations [[Arxiv]](https://arxiv.org/abs/2402.06827v1)\
-*Enyi Jiang, Gagandeep Singh*\
+*Enyi Jiang, Gagandeep Singh*
 
 
 ## Code
@@ -37,4 +37,15 @@ classifiers. The corresponding architecture is loaded if the run has the automat
 ## Credits
 Parts of the code in this repo is based on
 + [https://github.com/fra31/robust-finetuning](https://github.com/fra31/robust-finetuning)
+
+## Citation
+Cite the paper/repo:
+```
+@article{jiang2024ramp,
+  title={RAMP: Boosting Adversarial Robustness Against Multiple $ l\_p $ Perturbations},
+  author={Jiang, Enyi and Singh, Gagandeep},
+  journal={arXiv preprint arXiv:2402.06827},
+  year={2024}
+}
+```
 
