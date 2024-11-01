@@ -1,5 +1,5 @@
 # RAMP
-RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations [[Arxiv]](https://arxiv.org/abs/2402.06827v1)\
+RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations for Universal Robustness [[NeurIPS 2024]](https://arxiv.org/abs/2402.06827v1)\
 *Enyi Jiang, Gagandeep Singh*
 
 
@@ -18,7 +18,7 @@ We recommend first creating a conda environment using the provided [environment.
 
 ### Robust Fine-tuning
 
-+ To get pretrained versions of ResNet-18 models with different epsilon values, one can run `pretrain_diff_eps_Lp.sh` scripts in folder `scripts/cifar10`.
++ To get pre-trained versions of ResNet-18 models with different epsilon values, one can run `pretrain_diff_eps_Lp.sh` scripts in folder `scripts/cifar10`.
 
 + It is also possible to use models from the [Model Zoo](https://github.com/RobustBench/robustbench#model-zoo) of [RobustBench](https://robustbench.github.io/)
 with `--model_name=RB_{}` inserting the identifier of the classifier from the Model Zoo (these are automatically downloaded). (credits to E-AT paper)
@@ -31,7 +31,7 @@ with `--model_name=RB_{}` inserting the identifier of the classifier from the Mo
 With `--final_eval` our standard evaluation (with APGD-CE and APGD-T, for a total of 10 restarts of 100 steps) is run for all threat models at the end of training.
 Specifying `--eval_freq=k` a fast evaluation is run on test and training points every `k` epochs.
 
-To evaluate a trained model one can run `eval.py` with `--model_name` as above for the pretrained model or `--model_name=/path/to/checkpoint/` for new or fine-tuned
+To evaluate a trained model one can run `eval.py` with `--model_name` as above for the pre-trained model or `--model_name=/path/to/checkpoint/` for new or fine-tuned
 classifiers. The corresponding architecture is loaded if the run has the automatically generated name. More details about the options for evaluation in `eval.py`.
 
 ## Credits
