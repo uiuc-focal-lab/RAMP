@@ -1,5 +1,5 @@
 # RAMP
-RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations for Universal Robustness [[NeurIPS 2024]](https://arxiv.org/abs/2402.06827v1)\
+RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations for Universal Robustness [[NeurIPS 2024]](https://arxiv.org/abs/2402.06827)\
 *Enyi Jiang, Gagandeep Singh*
 
 
