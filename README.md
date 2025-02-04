@@ -6,13 +6,13 @@ RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations for U
 ## Code
 
 ### Installation
-We recommend first creating a conda environment using the provided [environment.yml](https://github.com/uiuc-focal-lab/RAMP/blob/main/environment.yml):
+We recommend first creating a conda environment using the provided [requirements.txt](https://github.com/uiuc-focal-lab/RAMP/blob/main/requirements.txt):
 
-`conda env create -f environment.yml`
+`conda create --name RAMP --file requirements.txt`
 
 ### Training from Scratch
 
-+ **Main Result**: The files `RAMP.py` and `RAMP_wide_resnet.py` allow us to train ResNet-18 and WideReset models with standard choices of epsilons. To reproduce the results in the paper, one can run `RAMP_scratch_cifar10.sh` in folder `scripts/cifar10`.
++ **Main Result**: The files `RAMP.py` and `RAMP_wide_resnet.py` allow us to train ResNet-18 and WideReset models with standard choices of epsilons. To reproduce the results in the paper, one can run `RAMP_scratch_cifar10.sh` in the `scripts/cifar10` folder.
   
 + **Varying Epsilon Values**: We provide scripts of `run_ramp_diff_eps_scratch.sh` (RAMP), `run_max_diff_eps_scratch.sh` (MAX), and `run_eat_diff_eps_scratch.sh` (E-AT) in folder `scripts/cifar10` for running the training from scratch experiments with different choices of epsilons. 
 
@@ -25,10 +25,10 @@ with `--model_name=RB_{}` inserting the identifier of the classifier from the Mo
 
 + **Main Result**:  To reproduce the results in the paper with different model architectures, one can run `RAMP_finetune_cifar10.sh` in folder `scripts/cifar10` and `RAMP_finetune_imagenet.sh` in folder `scripts/imagenet`.
 
-+ **Varying Epsilon Values**: We provide scripts of `run_ramp_diff_eps_finetune.sh` (RAMP), `run_max_diff_eps_finetune.sh` (MAX), and `run_eat_diff_eps_finetune.sh` (E-AT) in folder `scripts/cifar10` for running the robust fine-tuning experiments with different choices of epsilons. 
++ **Varying Epsilon Values**: We provide the scripts `run_ramp_diff_eps_finetune.sh` (RAMP), `run_max_diff_eps_finetune.sh` (MAX), and `run_eat_diff_eps_finetune.sh` (E-AT) in the folder `scripts/cifar10` for running robust fine-tuning experiments with different choices of epsilons. 
 
 ### Evaluation (from E-AT paper)
-With `--final_eval` our standard evaluation (with APGD-CE and APGD-T, for a total of 10 restarts of 100 steps) is run for all threat models at the end of training.
+With `--final_eval` our standard evaluation (with APGD-CE and APGD-T, for 10 restarts of 100 steps) is run for all threat models at the end of training.
 Specifying `--eval_freq=k` a fast evaluation is run on test and training points every `k` epochs.
 
 To evaluate a trained model one can run `eval.py` with `--model_name` as above for the pre-trained model or `--model_name=/path/to/checkpoint/` for new or fine-tuned
