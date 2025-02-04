@@ -8,7 +8,9 @@ RAMP: Boosting Adversarial Robustness Against Multiple $l_p$ Perturbations for U
 ### Installation
 We recommend first creating a conda environment using the provided [requirements.txt](https://github.com/uiuc-focal-lab/RAMP/blob/main/requirements.txt):
 
-`conda create --name RAMP --file requirements.txt`
+`conda create --name RAMP`
+
+`pip install -r requirements.txt`
 
 ### Training from Scratch
 
